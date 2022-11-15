@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 
 def readme():
     with open('README.rst') as f:
@@ -9,6 +9,7 @@ setup(
     packages = ["telnetsrv"],
     version = "0.4.1",
     extras_require = {
+        'evtlet': ['eventlet'],
         'green': ['gevent'],
         'ssh': ['paramiko'],
         },
@@ -17,7 +18,7 @@ setup(
     author = "Ian Epperson",
     author_email = "ian@epperson.com",
     url = "https://github.com/ianepperson/telnetsrvlib",
-    keywords = ["gevent", "telnet", "server"],
+    keywords = ["eventlet", "gevent", "telnet", "server"],
     classifiers = [
         "Programming Language :: Python",
         "Development Status :: 4 - Beta",
