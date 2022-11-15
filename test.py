@@ -36,7 +36,7 @@ elif console_args.eventlet:
 else:
     SERVERTYPE = 'threaded'
     # To run a threaded server, import threading and other libraries to help out.
-    import SocketServer
+    import socketserver
     import threading
     import time
 
@@ -140,7 +140,7 @@ class TestTelnetHandler(TelnetHandler):
         """
         Display some debugging data
         """
-        for (v,k) in self.ESCSEQ.items():
+        for (v,k) in list(self.ESCSEQ.items()):
             line = '%-10s : ' % (self.KEYS[k], )
             for c in v:
                 if ord(c)<32 or ord(c)>126:
@@ -305,7 +305,7 @@ if __name__ == '__main__':
 
     if SERVERTYPE == 'threaded':
         # Single threaded server - only one session at a time
-        class TelnetServer(SocketServer.TCPServer):
+        class TelnetServer(socketserver.TCPServer):
             allow_reuse_address = True
 
         server = TelnetServer((TELNET_IP_BINDING, TELNET_PORT_BINDING), Handler)
