@@ -55,7 +55,7 @@ else:
 # Here is a simple example that just counts the number of connections
 # as well as the number of times this user has connected.
 
-class MyServer(object):
+class MyServer:
     '''A simple server class that just keeps track of a connection count.'''
     def __init__(self):
         # Var to track the total connections.
@@ -161,7 +161,7 @@ class TestTelnetHandler(TelnetHandler):
         '''
         Provides some information about the current terminal.
         '''
-        self.writeresponse( "Username: %s, terminal type: %s" % (self.username, self.TERM) )
+        self.writeresponse( f"Username: {self.username}, terminal type: {self.TERM}" )
         self.writeresponse( "Command history:" )
         for c in self.history:
             self.writeresponse("  %r" % c)
@@ -285,7 +285,7 @@ if __name__ == '__main__':
 
     if SERVERTYPE == 'eventlet':
 
-        class EvtletStreamServer(object):
+        class EvtletStreamServer:
             def __init__(self, addr, handle):
                 self.ip = addr[0]
                 self.port = addr[1]

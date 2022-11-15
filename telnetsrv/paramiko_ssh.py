@@ -14,17 +14,17 @@ log = logging.getLogger(__name__)
 def getRsaKeyFile(filename, password=None):
     try:
         key = RSAKey(filename=filename, password=password)
-    except IOError:
+    except OSError:
         log.info('Generating new server RSA key and saving in file %r.' % filename)
         key = RSAKey.generate(1024)
         key.write_private_key_file(filename, password=password)
     return key
 
 
-class TelnetToPtyHandler(object):
+class TelnetToPtyHandler:
     '''Mixin to turn TelnetHandler into PtyHandler'''
     def __init__(self, *args):
-        super(TelnetToPtyHandler, self).__init__(*args)
+        super().__init__(*args)
         
     # Don't mention these, client isn't listening for them.  Blank the dicts.
     DOACK = {}
@@ -110,7 +110,7 @@ class SSHHandler(ServerInterface, BaseRequestHandler):
 
         
     
-    class dummy_request(object):
+    class dummy_request:
         def __init__(self):
             self._sock = None
     

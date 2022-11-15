@@ -217,7 +217,7 @@ class command():
         
         
 
-class InputSimple(object):
+class InputSimple:
     '''Simple line handler.  All spaces become one, can have quoted parameters, but not null'''
     quote_chars = ['"', "'"]
     def __init__(self, handler, line):
@@ -251,7 +251,7 @@ class InputSimple(object):
         self.parts = cmdlist
 
 
-class InputBashLike(object):
+class InputBashLike:
     '''Handles escaped characters, quoted parameters and multi-line input similar to Bash.'''
     quote_chars = ['"', "'"]
     whitespace = [' ', '\t']
@@ -483,7 +483,7 @@ class TelnetHandlerBase(socketserver.BaseRequestHandler):
                     
         socketserver.BaseRequestHandler.__init__(self, request, client_address, server)
     
-    class false_request(object):
+    class false_request:
         def __init__(self):
             self.sock = None
     
@@ -496,12 +496,12 @@ class TelnetHandlerBase(socketserver.BaseRequestHandler):
         log.debug("Accepted connection, starting telnet session.")
         try:
             cls(request, address, server)
-        except socket.error:
+        except OSError:
             pass
 
     def setterm(self, term):
         "Set the curses structures for this terminal"
-        log.debug("Setting termtype to %s" % (term, ))
+        log.debug(f"Setting termtype to {term}")
         curses.setupterm(term) # This will raise if the termtype is not supported
         self.TERM = term
         self.ESCSEQ = {}
@@ -577,7 +577,7 @@ class TelnetHandlerBase(socketserver.BaseRequestHandler):
         elif cmd == SB:
             pass
         else:
-            log.debug("Unhandled option: %s %s" % (cmdtxt, opttxt, ))
+            log.debug(f"Unhandled option: {cmdtxt} {opttxt}")
 
     def sendcommand(self, cmd, opt=None):
         "Send a telnet command (IAC)"
@@ -908,7 +908,7 @@ class TelnetHandlerBase(socketserver.BaseRequestHandler):
                     self.iacseq = ''
                     if cmd in (DO, DONT, WILL, WONT):
                         self.options_handler(self.sock, cmd, c)
-        except (EOFError, socket.error):
+        except (EOFError, OSError):
             pass
 
 # ------------------------------- Basic Commands ---------------------------
@@ -934,7 +934,7 @@ class TelnetHandlerBase(socketserver.BaseRequestHandler):
                 if not docl.strip():  # If there isn't anything here, use line 1
                     docl = doc[1].strip()
                 self.writeline(
-                    "%s %s\n\n%s" % (
+                    "{} {}\n\n{}".format(
                         cmd,
                         docp,
                         docl,
@@ -958,11 +958,11 @@ class TelnetHandlerBase(socketserver.BaseRequestHandler):
             docp = doc[0].strip()
             docs = doc[1].strip()
             if len(docp) > 0:
-                docps = "%s - %s" % (docp, docs, )
+                docps = f"{docp} - {docs}"
             else:
-                docps = "- %s" % (docs, )
+                docps = f"- {docs}"
             self.writeline(
-                "%s %s" % (
+                "{} {}".format(
                     cmd,
                     docps,
                 )
